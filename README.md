@@ -32,14 +32,6 @@ full, or contains invalid data, a warning appears and the board remains usable
 in memory. Existing invalid data is not overwritten until you make a change.
 There is no network sync or backend.
 
-## Lead-time dashboard
-
-The [lead-time dashboard](./lead-times/) plots completion dates against lead
-times from `Lead Times - 2024-25.xlsx`. It filters S/M/L items, recalculates
-50th, 85th, and 95th percentile forecasts for visible, included items, and lets
-you exclude/restore points or add new ones. Changes are saved in the current
-browser. GitHub Pages publishes both dashboards from the `main` branch.
-
 ## Verification
 
 There is no build or automated test setup. To check the page in a browser:
