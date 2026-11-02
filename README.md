@@ -1,12 +1,23 @@
 # Dayboard
 
-A simple, local-first scatterboard for estimating initiative effort. Plain HTML,
-CSS, and JavaScript — no dependencies, build tools, server, or account required.
+A simple, local-first dashboard with lead-time and delivery-throughput charts,
+alongside an initiative effort board. Plain HTML, CSS, and JavaScript — no
+dependencies, build tools, server, or account required.
 
 ## Open
 
 Download the repository and open `index.html` directly in a modern browser.
 Keep `styles.css` and `script.js` beside it. No installation is needed.
+
+## Insights
+
+- **Lead time** plots completed-item lead times against their completion dates.
+- **Delivery throughput** groups daily deliveries into consecutive 7-day periods
+  starting January 7, 2025. The final period is partial. Its X chart uses
+  limits of mean ± 2.66 × average moving range; its MR chart uses limits of
+  mean ± 3.27 × average moving range.
+- The chart data comes from `Lead Times - 2024-25.xlsx` and
+  `Throughput Daily.xlsx`. Choose **Initiatives** to use the original board.
 
 ## Use
 
@@ -44,14 +55,16 @@ browser. GitHub Pages publishes both dashboards from the `main` branch.
 
 There is no build or automated test setup. To check the page in a browser:
 
-1. Add an initiative; confirm the count and total effort increase correctly.
-2. Edit its name, description, and estimate; cancel a second edit to check it
+1. Switch among Lead time, Delivery throughput, and Initiatives using the tabs.
+   The throughput tab should show weekly X and MR charts.
+2. Add an initiative; confirm the count and total effort increase correctly.
+3. Edit its name, description, and estimate; cancel a second edit to check it
    does not change anything.
-3. Drag it to another marker, then change it again using only its keyboard
+4. Drag it to another marker, then change it again using only its keyboard
    selector. Confirm both position and total effort update.
-4. Reload and verify changes persist. Delete it and confirm deletion persists.
-5. Delete all initiatives and reload; examples should not reappear.
-6. Try an empty or whitespace-only name; it must not save. Enter text such as
+5. Reload and verify changes persist. Delete it and confirm deletion persists.
+6. Delete all initiatives and reload; examples should not reappear.
+7. Try an empty or whitespace-only name; it must not save. Enter text such as
    `<b>an idea</b>` and confirm it displays literally, not as HTML.
-7. Check keyboard focus, dialog Escape/Cancel behavior, and horizontal board
+8. Check keyboard focus, dialog Escape/Cancel behavior, and horizontal board
    scrolling in a narrow window.

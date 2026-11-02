@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#f6f7fb">
-    <title>Dayboard — Initiative estimates</title>
+    <title>Dayboard — Delivery insights</title>
     <link rel="stylesheet" href="styles.css">
     <script src="script.js" defer></script>
   </head>
@@ -22,60 +22,98 @@
     <main>
       <section class="page-heading" aria-labelledby="page-title">
         <div>
-          <p class="eyebrow">LESS GUESSWORK. MORE PERSPECTIVE.</p>
-          <h1 id="page-title">Big ideas. Clear estimates.</h1>
-          <p class="intro">Give your initiatives a place on the board. See the effort ahead.</p>
+          <p class="eyebrow">DELIVERY. MADE VISIBLE.</p>
+          <h1 id="page-title">Delivery insights.</h1>
+          <p class="intro">Explore delivery performance or return to your initiative board.</p>
         </div>
-        <button id="add-initiative" class="button button-primary" type="button">
-          <span aria-hidden="true">+</span> Add initiative
-        </button>
       </section>
 
-      <section class="summary" aria-label="Board summary">
-        <div class="summary-item">
-          <span class="summary-icon" aria-hidden="true">▦</span>
-          <div><p class="stat-label">Initiatives</p><p class="stat"><span id="initiative-count">0</span><span class="stat-unit">on the board</span></p></div>
+      <nav class="view-tabs" role="tablist" aria-label="Insights">
+        <button id="lead-time-tab" class="view-tab" type="button" role="tab" aria-selected="true" aria-controls="lead-time-panel" tabindex="0">Lead time</button>
+        <button id="throughput-tab" class="view-tab" type="button" role="tab" aria-selected="false" aria-controls="throughput-panel" tabindex="-1">Delivery throughput</button>
+        <button id="initiatives-tab" class="view-tab" type="button" role="tab" aria-selected="false" aria-controls="initiatives-panel" tabindex="-1">Initiatives</button>
+      </nav>
+
+      <section id="lead-time-panel" class="insight-panel" role="tabpanel" aria-labelledby="lead-time-tab">
+        <div class="insight-heading">
+          <div><h2>Lead time</h2><p>Elapsed time from start to completion for each delivered item.</p></div>
+          <span class="board-tag">CALENDAR DAYS</span>
         </div>
-        <div class="summary-item">
-          <span class="summary-icon effort-icon" aria-hidden="true">◷</span>
-          <div><p class="stat-label">Total estimated effort</p><p class="stat"><span id="total-effort">0</span><span class="stat-unit">days</span></p></div>
+        <div class="chart-wrap">
+          <svg id="lead-time-chart" class="chart" role="img" aria-label="Lead time by completion date"></svg>
         </div>
-        <p class="summary-note">A sum of effort,<br>not a calendar timeline.</p>
+        <p class="chart-note">Each point represents one completed item. Source: Lead Times - 2024-25.xlsx.</p>
       </section>
 
-      <section class="board-panel" aria-labelledby="board-title">
-        <div class="board-heading">
-          <div><h2 id="board-title">Your initiative board</h2><p>Small steps on the left. Bigger lifts on the right.</p></div>
-          <span class="board-tag">EFFORT IN DAYS</span>
+      <section id="throughput-panel" class="insight-panel" role="tabpanel" aria-labelledby="throughput-tab" hidden>
+        <div class="insight-heading">
+          <div><h2>Delivery throughput</h2><p>Weekly completed items, with an X-MR control chart.</p></div>
+          <span class="board-tag">ITEMS PER WEEK</span>
         </div>
-        <p id="board-help" class="board-help"><span aria-hidden="true">↔</span> Drag a card to estimate, or use its day selector. Each initiative has its own row; row order has no scoring meaning.</p>
-        <div class="board-scroll" tabindex="0" role="region" aria-label="Scrollable initiative estimates" aria-describedby="board-help">
-          <div class="board">
-            <div class="axis" aria-label="Estimated effort in days">
-              <span><strong>1</strong> day</span>
-              <span><strong>2</strong> days</span>
-              <span><strong>3</strong> days</span>
-              <span><strong>5</strong> days</span>
-              <span><strong>8</strong> days</span>
-              <span><strong>13</strong> days</span>
-              <span><strong>21</strong> days</span>
-            </div>
-            <div class="plot">
-              <div class="grid-lines" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
-              <div id="initiative-rows"></div>
-              <div id="empty-state" class="empty-state" hidden>
-                <span aria-hidden="true">✧</span>
-                <h3>A clear board. A fresh start.</h3>
-                <p>Add your first initiative to see where it lands.</p>
-                <button id="add-first" class="button button-secondary" type="button">+ Add initiative</button>
-              </div>
-            </div>
-            <div class="axis-caption"><span>LESS EFFORT</span><span aria-hidden="true">⟶</span><span>MORE EFFORT</span></div>
+        <div class="control-chart">
+          <h3>Weekly throughput (X)</h3>
+          <svg id="throughput-x-chart" class="chart" role="img" aria-label="Weekly delivery throughput X chart"></svg>
+        </div>
+        <div class="control-chart">
+          <h3>Moving range (MR)</h3>
+          <svg id="throughput-mr-chart" class="chart" role="img" aria-label="Moving range MR chart"></svg>
+        </div>
+        <p id="throughput-chart-note" class="chart-note"></p>
+      </section>
+
+      <section id="initiatives-panel" class="initiatives-panel" role="tabpanel" aria-labelledby="initiatives-tab" hidden>
+        <div class="initiatives-heading">
+          <div><h2>Plan your work</h2><p>Add or adjust estimates for upcoming initiatives.</p></div>
+          <button id="add-initiative" class="button button-primary" type="button">
+            <span aria-hidden="true">+</span> Add initiative
+          </button>
+        </div>
+        <section class="summary" aria-label="Board summary">
+          <div class="summary-item">
+            <span class="summary-icon" aria-hidden="true">▦</span>
+            <div><p class="stat-label">Initiatives</p><p class="stat"><span id="initiative-count">0</span><span class="stat-unit">on the board</span></p></div>
           </div>
-        </div>
-        <div class="board-footer"><span><span class="status-dot" aria-hidden="true"></span> <span id="save-status">Saved in this browser</span></span><span>Your ideas stay on your device.</span></div>
+          <div class="summary-item">
+            <span class="summary-icon effort-icon" aria-hidden="true">◷</span>
+            <div><p class="stat-label">Total estimated effort</p><p class="stat"><span id="total-effort">0</span><span class="stat-unit">days</span></p></div>
+          </div>
+          <p class="summary-note">A sum of effort,<br>not a calendar timeline.</p>
+        </section>
+
+        <section class="board-panel" aria-labelledby="board-title">
+          <div class="board-heading">
+            <div><h2 id="board-title">Your initiative board</h2><p>Small steps on the left. Bigger lifts on the right.</p></div>
+            <span class="board-tag">EFFORT IN DAYS</span>
+          </div>
+          <p id="board-help" class="board-help"><span aria-hidden="true">↔</span> Drag a card to estimate, or use its day selector. Each initiative has its own row; row order has no scoring meaning.</p>
+          <div class="board-scroll" tabindex="0" role="region" aria-label="Scrollable initiative estimates" aria-describedby="board-help">
+            <div class="board">
+              <div class="axis" aria-label="Estimated effort in days">
+                <span><strong>1</strong> day</span>
+                <span><strong>2</strong> days</span>
+                <span><strong>3</strong> days</span>
+                <span><strong>5</strong> days</span>
+                <span><strong>8</strong> days</span>
+                <span><strong>13</strong> days</span>
+                <span><strong>21</strong> days</span>
+              </div>
+              <div class="plot">
+                <div class="grid-lines" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+                <div id="initiative-rows"></div>
+                <div id="empty-state" class="empty-state" hidden>
+                  <span aria-hidden="true">✧</span>
+                  <h3>A clear board. A fresh start.</h3>
+                  <p>Add your first initiative to see where it lands.</p>
+                  <button id="add-first" class="button button-secondary" type="button">+ Add initiative</button>
+                </div>
+              </div>
+              <div class="axis-caption"><span>LESS EFFORT</span><span aria-hidden="true">⟶</span><span>MORE EFFORT</span></div>
+            </div>
+          </div>
+          <div class="board-footer"><span><span class="status-dot" aria-hidden="true"></span> <span id="save-status">Saved in this browser</span></span><span>Your ideas stay on your device.</span></div>
+        </section>
+        <aside class="tip"><span class="tip-symbol" aria-hidden="true">✦</span><p><strong>Estimates are a starting point.</strong> Move things around as you learn. The best plan is one you can adjust.</p></aside>
       </section>
-      <aside class="tip"><span class="tip-symbol" aria-hidden="true">✦</span><p><strong>Estimates are a starting point.</strong> Move things around as you learn. The best plan is one you can adjust.</p></aside>
       <p id="announcement" class="sr-only" role="status" aria-live="polite"></p>
     </main>
 
