@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#f6f7fb">
+    <title>Dayboard — Initiative estimates</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="script.js" defer></script>
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="./index.html" aria-label="Dayboard home">
+        <span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></span>
+        Dayboard<span class="brand-dot">.</span>
+      </a>
+      <span class="workspace-label">A little clarity for what’s next</span>
+      <span class="local-badge"><span aria-hidden="true"></span> Local workspace</span>
+    </header>
+
+    <main>
+      <section class="page-heading" aria-labelledby="page-title">
+        <div>
+          <p class="eyebrow">LESS GUESSWORK. MORE PERSPECTIVE.</p>
+          <h1 id="page-title">Big ideas. Clear estimates.</h1>
+          <p class="intro">Give your initiatives a place on the board. See the effort ahead.</p>
+        </div>
+        <button id="add-initiative" class="button button-primary" type="button">
+          <span aria-hidden="true">+</span> Add initiative
+        </button>
+      </section>
+
+      <section class="summary" aria-label="Board summary">
+        <div class="summary-item">
+          <span class="summary-icon" aria-hidden="true">▦</span>
+          <div><p class="stat-label">Initiatives</p><p class="stat"><span id="initiative-count">0</span><span class="stat-unit">on the board</span></p></div>
+        </div>
+        <div class="summary-item">
+          <span class="summary-icon effort-icon" aria-hidden="true">◷</span>
+          <div><p class="stat-label">Total estimated effort</p><p class="stat"><span id="total-effort">0</span><span class="stat-unit">days</span></p></div>
+        </div>
+        <p class="summary-note">A sum of effort,<br>not a calendar timeline.</p>
+      </section>
+
+      <section class="board-panel" aria-labelledby="board-title">
+        <div class="board-heading">
+          <div><h2 id="board-title">Your initiative board</h2><p>Small steps on the left. Bigger lifts on the right.</p></div>
+          <span class="board-tag">EFFORT IN DAYS</span>
+        </div>
+        <p id="board-help" class="board-help"><span aria-hidden="true">↔</span> Drag a card to estimate, or use its day selector. Each initiative has its own row; row order has no scoring meaning.</p>
+        <div class="board-scroll" tabindex="0" role="region" aria-label="Scrollable initiative estimates" aria-describedby="board-help">
+          <div class="board">
+            <div class="axis" aria-label="Estimated effort in days">
+              <span><strong>1</strong> day</span>
+              <span><strong>2</strong> days</span>
+              <span><strong>3</strong> days</span>
+              <span><strong>5</strong> days</span>
+              <span><strong>8</strong> days</span>
+              <span><strong>13</strong> days</span>
+              <span><strong>21</strong> days</span>
+            </div>
+            <div class="plot">
+              <div class="grid-lines" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+              <div id="initiative-rows"></div>
+              <div id="empty-state" class="empty-state" hidden>
+                <span aria-hidden="true">✧</span>
+                <h3>A clear board. A fresh start.</h3>
+                <p>Add your first initiative to see where it lands.</p>
+                <button id="add-first" class="button button-secondary" type="button">+ Add initiative</button>
+              </div>
+            </div>
+            <div class="axis-caption"><span>LESS EFFORT</span><span aria-hidden="true">⟶</span><span>MORE EFFORT</span></div>
+          </div>
+        </div>
+        <div class="board-footer"><span><span class="status-dot" aria-hidden="true"></span> <span id="save-status">Saved in this browser</span></span><span>Your ideas stay on your device.</span></div>
+      </section>
+      <aside class="tip"><span class="tip-symbol" aria-hidden="true">✦</span><p><strong>Estimates are a starting point.</strong> Move things around as you learn. The best plan is one you can adjust.</p></aside>
+      <p id="announcement" class="sr-only" role="status" aria-live="polite"></p>
+    </main>
+
+    <footer class="site-footer"><span>Dayboard <span aria-hidden="true">/</span> Make room for the work that matters.</span><span>Simple by design.</span></footer>
+
+    <dialog id="initiative-dialog" aria-labelledby="dialog-title">
+      <form id="initiative-form">
+        <div class="dialog-heading"><h2 id="dialog-title">Add initiative</h2><button id="close-dialog" class="icon-button" type="button" aria-label="Close dialog">×</button></div>
+        <p class="dialog-intro">An idea, a little context, and your best estimate.</p>
+        <label for="initiative-name">Initiative name <span aria-hidden="true">*</span></label>
+        <input id="initiative-name" name="name" type="text" maxlength="120" placeholder="What are you working on?" required>
+        <label for="initiative-description">Description <span class="optional">(optional)</span></label>
+        <textarea id="initiative-description" name="description" rows="3" maxlength="1000" placeholder="A little context goes a long way."></textarea>
+        <label for="initiative-estimate">Estimated effort</label>
+        <select id="initiative-estimate" name="estimate" required>
+          <option value="1">1 day</option>
+          <option value="2">2 days</option>
+          <option value="3" selected>3 days</option>
+          <option value="5">5 days</option>
+          <option value="8">8 days</option>
+          <option value="13">13 days</option>
+          <option value="21">21 days</option>
+        </select>
+        <p id="form-error" class="form-error" role="alert"></p>
+        <div class="dialog-actions">
+          <button id="delete-initiative" class="button button-danger" type="button" hidden>Delete initiative</button>
+          <div class="save-actions"><button id="cancel-dialog" class="button button-secondary" type="button">Cancel</button><button class="button button-primary" type="submit">Save initiative</button></div>
+        </div>
+      </form>
+    </dialog>
+  </body>
+</html>

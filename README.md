@@ -1,2 +1,49 @@
-# Unsinkable-II
-Row, row, row your boat
+# Dayboard
+
+A simple, local-first scatterboard for estimating initiative effort. Plain HTML,
+CSS, and JavaScript — no dependencies, build tools, server, or account required.
+
+## Open
+
+Download the repository and open `index.html` directly in a modern browser.
+Keep `styles.css` and `script.js` beside it. No installation is needed.
+
+## Use
+
+- Choose **Add initiative**, enter a name, optional description, and day estimate,
+  then save. Supported estimates are **1, 2, 3, 5, 8, 13, and 21 days**.
+- Drag a card horizontally to snap it to the nearest marker. The markers are
+  evenly spaced estimate categories, not a linear time scale. Each card has its
+  own row; vertical position has no scoring meaning.
+- Alternatively, use the day selector on each card. Tab to it and use the arrow
+  keys to choose an estimate (confirm with Enter where required by your browser).
+- Choose a card’s pencil button to edit it or delete it with confirmation.
+  Escape or Cancel closes the editor without saving.
+- The summary shows initiative count and **total estimated effort**, not calendar
+  duration. On narrow screens, scroll the board horizontally; keyboard users can
+  focus the board and use arrow keys to scroll.
+
+Changes save automatically in this browser’s `localStorage`. Example initiatives
+appear only when no saved board exists; deleting all cards preserves an empty
+board on reload. Clearing site data resets the board. Storage is browser- and
+location-specific, and `file:` URL storage behavior varies between browsers;
+keep using the same browser and file location. If storage is blocked, unavailable,
+full, or contains invalid data, a warning appears and the board remains usable
+in memory. Existing invalid data is not overwritten until you make a change.
+There is no network sync or backend.
+
+## Verification
+
+There is no build or automated test setup. To check the page in a browser:
+
+1. Add an initiative; confirm the count and total effort increase correctly.
+2. Edit its name, description, and estimate; cancel a second edit to check it
+   does not change anything.
+3. Drag it to another marker, then change it again using only its keyboard
+   selector. Confirm both position and total effort update.
+4. Reload and verify changes persist. Delete it and confirm deletion persists.
+5. Delete all initiatives and reload; examples should not reappear.
+6. Try an empty or whitespace-only name; it must not save. Enter text such as
+   `<b>an idea</b>` and confirm it displays literally, not as HTML.
+7. Check keyboard focus, dialog Escape/Cancel behavior, and horizontal board
+   scrolling in a narrow window.
