@@ -200,9 +200,9 @@
       { value: leadAverage - 2.66 * leadAverageMovingRange, label: "LCL", className: "chart-lcl" },
     ];
     const leadMrLimits = [
-      { value: 3.27 * leadAverageMovingRange, label: "UCL", className: "chart-ucl" },
+      { value: leadAverageMovingRange + 3.27 * leadAverageMovingRange, label: "UCL", className: "chart-ucl" },
       { value: leadAverageMovingRange, label: "CL", className: "chart-mean" },
-      { value: 0, label: "LCL", className: "chart-lcl" },
+      { value: leadAverageMovingRange - 3.27 * leadAverageMovingRange, label: "LCL", className: "chart-lcl" },
     ];
     const weekRangeLabel = (start, days) => {
       const end = start + (days - 1) * 86400000;
@@ -220,7 +220,7 @@
       lines: leadMrLimits,
     });
     document.querySelector("#lead-time-chart-note").textContent =
-      `Each point is the average lead time for completed items in a Monday–Sunday calendar week; weeks without completions are omitted. MR compares consecutive weeks with data. X limits: mean ± 2.66 × average MR; MR limits: 0 to 3.27 × average MR. Mean weekly lead time: ${leadAverage.toFixed(2)} days; average MR: ${leadAverageMovingRange.toFixed(2)} days. Source: Lead Times - 2024-25.xlsx.`;
+      `Each point is the average lead time for completed items in a Monday–Sunday calendar week; weeks without completions are omitted. MR compares consecutive weeks with data. X limits: mean ± 2.66 × average MR; MR limits: mean ± 3.27 × average MR. Mean weekly lead time: ${leadAverage.toFixed(2)} days; average MR: ${leadAverageMovingRange.toFixed(2)} days. Source: Lead Times - 2024-25.xlsx.`;
 
     const firstDay = Date.UTC(2025, 0, 7);
     const weeks = [];
@@ -246,7 +246,7 @@
     const mrLimits = [
       { value: averageMovingRange + 3.27 * averageMovingRange, label: "UCL", className: "chart-ucl" },
       { value: averageMovingRange, label: "CL", className: "chart-mean" },
-      { value: 0, label: "LCL", className: "chart-lcl" },
+      { value: averageMovingRange - 3.27 * averageMovingRange, label: "LCL", className: "chart-lcl" },
     ];
     drawChart(document.querySelector("#throughput-x-chart"), weeks.map(week => ({
       x: week.start, value: week.value,
