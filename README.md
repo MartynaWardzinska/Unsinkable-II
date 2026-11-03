@@ -14,11 +14,12 @@ Keep `styles.css` and `script.js` beside it. No installation is needed.
 - **Lead time** groups completed-item lead times into Monday–Sunday calendar
   weeks and plots each week's average in an X-MR control chart. Weeks without
   completed items are omitted; moving ranges compare consecutive weeks with
-  data.
+  data. The X chart limits are mean ± 2.66 × average moving range; the MR chart
+  limits are mean ± 3.27 × average moving range.
 - **Delivery throughput** groups daily deliveries into consecutive 7-day periods
-  starting January 7, 2025. The final period is partial. Its X chart uses
-  limits of mean ± 2.66 × average moving range; its MR chart uses limits of
-  mean ± 3.27 × average moving range.
+  starting January 7, 2025, and plots each period's total; the final period is
+  partial. Its X chart limits are mean ± 2.66 × average moving range; its MR
+  chart limits are mean ± 3.27 × average moving range.
 - The chart data comes from `Lead Times - 2024-25.xlsx` and
   `Throughput Daily.xlsx`. Choose **Initiatives** to use the original board.
 
