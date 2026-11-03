@@ -109,7 +109,7 @@
     const x = value => margin.left + (maxX === minX ? 0.5 : (value - minX) / (maxX - minX)) * plotWidth;
     const y = value => margin.top + (maxValue - value) / (maxValue - minValue) * plotHeight;
     const format = value => Number.isInteger(value) ? String(value) : value.toFixed(1);
-    const dateFormat = new Intl.DateTimeFormat("en", { month: "short", day: "numeric" });
+    const dateFormat = new Intl.DateTimeFormat("en", { month: "short", day: "numeric", timeZone: "UTC" });
 
     svg.setAttribute("viewBox", `0 0 ${width} ${height}`);
     svg.setAttribute("preserveAspectRatio", "xMidYMid meet");
@@ -172,18 +172,55 @@
   }
 
   function renderInsightCharts() {
-    const leadPoints = LEAD_TIMES.map(([date, value]) => ({
-      x: Date.parse(`${date}T00:00:00Z`),
-      value,
-      label: new Intl.DateTimeFormat("en", { dateStyle: "medium", timeZone: "UTC" })
-        .format(new Date(`${date}T00:00:00Z`)),
-    }));
-    const leadAverage = LEAD_TIMES.reduce((total, [, value]) => total + value, 0) / LEAD_TIMES.length;
-    drawChart(document.querySelector("#lead-time-chart"), leadPoints, {
-      valueName: "Lead time",
-      unit: "days",
-      lines: [{ value: leadAverage, label: "Mean", className: "chart-mean" }],
+    const leadWeeksByStart = new Map();
+    LEAD_TIMES.forEach(([date, leadTime]) => {
+      const timestamp = Date.parse(`${date}T00:00:00Z`);
+      const dayOfWeek = new Date(timestamp).getUTCDay();
+      const weekStart = timestamp - ((dayOfWeek + 6) % 7) * 86400000;
+      const week = leadWeeksByStart.get(weekStart) || { start: weekStart, total: 0, count: 0 };
+      week.total += leadTime;
+      week.count += 1;
+      leadWeeksByStart.set(weekStart, week);
     });
+    const leadWeeks = [...leadWeeksByStart.values()]
+      .sort((a, b) => a.start - b.start)
+      .map(week => ({ ...week, value: week.total / week.count }));
+    const leadAverage = leadWeeks.reduce((total, week) => total + week.value, 0) / leadWeeks.length;
+    const leadMovingRanges = leadWeeks.slice(1).map((week, index) => ({
+      x: week.start,
+      value: Math.abs(week.value - leadWeeks[index].value),
+      label: new Intl.DateTimeFormat("en", { month: "short", day: "numeric", timeZone: "UTC" })
+        .format(new Date(week.start)),
+    }));
+    const leadAverageMovingRange = leadMovingRanges
+      .reduce((total, point) => total + point.value, 0) / leadMovingRanges.length;
+    const leadXLimits = [
+      { value: leadAverage + 2.66 * leadAverageMovingRange, label: "UCL", className: "chart-ucl" },
+      { value: leadAverage, label: "CL", className: "chart-mean" },
+      { value: leadAverage - 2.66 * leadAverageMovingRange, label: "LCL", className: "chart-lcl" },
+    ];
+    const leadMrLimits = [
+      { value: 3.27 * leadAverageMovingRange, label: "UCL", className: "chart-ucl" },
+      { value: leadAverageMovingRange, label: "CL", className: "chart-mean" },
+      { value: 0, label: "LCL", className: "chart-lcl" },
+    ];
+    const weekRangeLabel = (start, days) => {
+      const end = start + (days - 1) * 86400000;
+      const dateFormat = new Intl.DateTimeFormat("en", { month: "short", day: "numeric", timeZone: "UTC" });
+      return `${dateFormat.format(new Date(start))}–${dateFormat.format(new Date(end))}`;
+    };
+    drawChart(document.querySelector("#lead-time-x-chart"), leadWeeks.map(week => ({
+      x: week.start,
+      value: week.value,
+      label: `${weekRangeLabel(week.start, 7)} (${week.count} ${week.count === 1 ? "item" : "items"})`,
+    })), { valueName: "Lead time", unit: "days", lines: leadXLimits });
+    drawChart(document.querySelector("#lead-time-mr-chart"), leadMovingRanges, {
+      valueName: "Moving range",
+      unit: "days",
+      lines: leadMrLimits,
+    });
+    document.querySelector("#lead-time-chart-note").textContent =
+      `Each point is the average lead time for completed items in a Monday–Sunday calendar week; weeks without completions are omitted. MR compares consecutive weeks with data. X limits: mean ± 2.66 × average MR; MR limits: 0 to 3.27 × average MR. Mean weekly lead time: ${leadAverage.toFixed(2)} days; average MR: ${leadAverageMovingRange.toFixed(2)} days. Source: Lead Times - 2024-25.xlsx.`;
 
     const firstDay = Date.UTC(2025, 0, 7);
     const weeks = [];
@@ -209,7 +246,7 @@
     const mrLimits = [
       { value: averageMovingRange + 3.27 * averageMovingRange, label: "UCL", className: "chart-ucl" },
       { value: averageMovingRange, label: "CL", className: "chart-mean" },
-      { value: averageMovingRange - 3.27 * averageMovingRange, label: "LCL", className: "chart-lcl" },
+      { value: 0, label: "LCL", className: "chart-lcl" },
     ];
     drawChart(document.querySelector("#throughput-x-chart"), weeks.map(week => ({
       x: week.start, value: week.value,
