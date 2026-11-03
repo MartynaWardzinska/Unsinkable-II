@@ -11,7 +11,10 @@ Keep `styles.css` and `script.js` beside it. No installation is needed.
 
 ## Insights
 
-- **Lead time** plots completed-item lead times against their completion dates.
+- **Lead time** groups completed-item lead times into Monday–Sunday calendar
+  weeks and plots each week's average in an X-MR control chart. Weeks without
+  completed items are omitted; moving ranges compare consecutive weeks with
+  data.
 - **Delivery throughput** groups daily deliveries into consecutive 7-day periods
   starting January 7, 2025. The final period is partial. Its X chart uses
   limits of mean ± 2.66 × average moving range; its MR chart uses limits of
@@ -56,7 +59,7 @@ browser. GitHub Pages publishes both dashboards from the `main` branch.
 There is no build or automated test setup. To check the page in a browser:
 
 1. Switch among Lead time, Delivery throughput, and Initiatives using the tabs.
-   The throughput tab should show weekly X and MR charts.
+   The lead-time and throughput tabs should show weekly X and MR charts.
 2. Add an initiative; confirm the count and total effort increase correctly.
 3. Edit its name, description, and estimate; cancel a second edit to check it
    does not change anything.

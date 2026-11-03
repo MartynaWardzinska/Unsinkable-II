@@ -36,13 +36,18 @@
 
       <section id="lead-time-panel" class="insight-panel" role="tabpanel" aria-labelledby="lead-time-tab">
         <div class="insight-heading">
-          <div><h2>Lead time</h2><p>Elapsed time from start to completion for each delivered item.</p></div>
-          <span class="board-tag">CALENDAR DAYS</span>
+          <div><h2>Lead time</h2><p>Weekly average lead time, with an X-MR control chart.</p></div>
+          <span class="board-tag">AVERAGE DAYS PER WEEK</span>
         </div>
-        <div class="chart-wrap">
-          <svg id="lead-time-chart" class="chart" role="img" aria-label="Lead time by completion date"></svg>
+        <div class="control-chart">
+          <h3>Weekly average lead time (X)</h3>
+          <svg id="lead-time-x-chart" class="chart" role="img" aria-label="Weekly average lead time X chart"></svg>
         </div>
-        <p class="chart-note">Each point represents one completed item. Source: Lead Times - 2024-25.xlsx.</p>
+        <div class="control-chart">
+          <h3>Moving range (MR)</h3>
+          <svg id="lead-time-mr-chart" class="chart" role="img" aria-label="Lead time moving range MR chart"></svg>
+        </div>
+        <p id="lead-time-chart-note" class="chart-note"></p>
       </section>
 
       <section id="throughput-panel" class="insight-panel" role="tabpanel" aria-labelledby="throughput-tab" hidden>
