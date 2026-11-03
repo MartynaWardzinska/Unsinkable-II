@@ -7,6 +7,7 @@
     <title>Dayboard — Delivery insights</title>
     <link rel="stylesheet" href="styles.css">
     <script src="script.js" defer></script>
+    <script src="roadmap.js" defer></script>
   </head>
   <body>
     <header class="site-header">
@@ -32,6 +33,7 @@
         <button id="lead-time-tab" class="view-tab" type="button" role="tab" aria-selected="true" aria-controls="lead-time-panel" tabindex="0">Lead time</button>
         <button id="throughput-tab" class="view-tab" type="button" role="tab" aria-selected="false" aria-controls="throughput-panel" tabindex="-1">Delivery throughput</button>
         <button id="initiatives-tab" class="view-tab" type="button" role="tab" aria-selected="false" aria-controls="initiatives-panel" tabindex="-1">Initiatives</button>
+        <button id="roadmap-tab" class="view-tab" type="button" role="tab" aria-selected="false" aria-controls="roadmap-panel" tabindex="-1">Roadmap &amp; forecast</button>
       </nav>
 
       <section id="lead-time-panel" class="insight-panel" role="tabpanel" aria-labelledby="lead-time-tab">
@@ -118,6 +120,13 @@
           <div class="board-footer"><span><span class="status-dot" aria-hidden="true"></span> <span id="save-status">Saved in this browser</span></span><span>Your ideas stay on your device.</span></div>
         </section>
         <aside class="tip"><span class="tip-symbol" aria-hidden="true">✦</span><p><strong>Estimates are a starting point.</strong> Move things around as you learn. The best plan is one you can adjust.</p></aside>
+      </section>
+      <section id="roadmap-panel" class="insight-panel rm" role="tabpanel" aria-labelledby="roadmap-tab" hidden>
+        <div class="insight-heading">
+          <div><h2>Roadmap &amp; forecast</h2><p>Multi-team plan with a Monte Carlo forecast (85% confidence).</p></div>
+          <span class="board-tag">GANTT · P85</span>
+        </div>
+        <div id="rm-root"></div>
       </section>
       <p id="announcement" class="sr-only" role="status" aria-live="polite"></p>
     </main>

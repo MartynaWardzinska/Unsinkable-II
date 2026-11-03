@@ -204,3 +204,43 @@ input::placeholder, textarea::placeholder { color: #757b8c; }
 @media (prefers-reduced-motion: reduce) {
   button { transition: none; }
 }
+
+/* Roadmap & forecast */
+.rm .rm-card { border: 1px solid var(--border); border-radius: 10px; background: #fff; padding: 16px; margin-bottom: 16px; }
+.rm h3 { margin: 0 0 10px; font-size: 15px; }
+.rm .hint { color: var(--muted); font-size: 12px; margin: 0 0 10px; }
+.rm .row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 8px; }
+.rm input[type=text], .rm input[type=number], .rm input[type=date], .rm select { border: 1px solid var(--border); border-radius: 6px; padding: 6px 8px; font: inherit; font-size: 13px; }
+.rm input[type=number] { width: 70px; }
+.rm .chip { display: inline-flex; align-items: center; gap: 6px; background: #f0effa; border-radius: 99px; padding: 3px 4px 3px 10px; font-size: 12px; }
+.rm .chip button, .rm .x { border: 0; background: transparent; cursor: pointer; color: var(--muted); font-size: 14px; }
+.rm label.cb { display: inline-flex; gap: 4px; align-items: center; font-size: 12px; margin-right: 10px; }
+.rm .item { border-top: 1px solid var(--border); padding-top: 10px; margin-top: 10px; }
+.rm .item > .row:first-child strong { font-size: 14px; }
+.rm table { border-collapse: collapse; font-size: 12px; width: 100%; }
+.rm th, .rm td { padding: 4px 6px; text-align: left; border-bottom: 1px solid var(--border); white-space: nowrap; }
+.rm td input[type=number] { width: 56px; padding: 3px 4px; }
+.rm .scroll { overflow-x: auto; }
+.rm .warn { color: #b42318; font-size: 12px; }
+.rm .gantt { min-width: 900px; font-size: 12px; }
+.rm .g-head, .rm .g-row { display: flex; align-items: stretch; }
+.rm .g-label { flex: 0 0 240px; padding: 4px 8px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.rm .g-track { position: relative; flex: 1; min-height: 24px; border-left: 1px solid var(--border); }
+.rm .g-months { display: flex; }
+.rm .g-months span { border-right: 1px solid var(--border); padding: 4px 2px; text-align: center; color: var(--muted); font-size: 11px; overflow: hidden; }
+.rm .g-row { border-top: 1px solid #f0f1f6; }
+.rm .g-row.init { background: #faf9ff; font-weight: 700; }
+.rm .g-row.item .g-label { padding-left: 22px; color: #4a4f63; }
+.rm .g-bar { position: absolute; top: 5px; height: 14px; border-radius: 4px; background: var(--accent); }
+.rm .g-bar.tail { background: repeating-linear-gradient(45deg, #b5aef0, #b5aef0 4px, #d9d5f8 4px, #d9d5f8 8px); border-radius: 0 4px 4px 0; }
+.rm .g-bar.fixed { background: #0b7a4b; }
+.rm .g-bar.late { background: #b42318; }
+.rm .g-bar.init-bar { top: 8px; height: 8px; background: #2d2760; }
+.rm .g-due { position: absolute; top: 2px; bottom: 2px; width: 2px; background: #b42318; }
+.rm .g-today { position: absolute; top: 0; bottom: 0; width: 1px; background: #e8590c; }
+.rm .legend { display: flex; flex-wrap: wrap; gap: 14px; font-size: 11px; color: var(--muted); margin-top: 8px; }
+.rm input[type=text] { width: auto; min-width: 240px; flex: 0 1 280px; }
+.rm input[type=date] { width: auto; }
+.rm input[type=checkbox] { width: auto; margin: 0; }
+.rm label.cb { margin: 0 10px 0 0; align-items: center; }
+.rm .row .button { margin: 0; }
